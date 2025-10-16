@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPT MORAL SCHOOL - ระบบสมาชิก</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+        .gradient-bg {
+            background-image: url('https://img5.pic.in.th/file/secure-sv1/IMG_25650953161d1c1bbdd8.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(2px);
+        }
+        .popup-overlay {
+            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        /* Animation classes */
+        .slide-up { animation: slideUp 0.4s ease-out; }
+        .slide-down { animation: slideDown 0.3s ease-in; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        .pulse-glow { animation: pulseGlow 2s infinite; }
+        .float { animation: float 3s ease-in-out infinite; }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideDown { from { transform: translateY(0); opacity: 1; } to { transform: translateY(100px); opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 20px rgba(147, 51, 234, 0.3); } 50% { box-shadow: 0 0 40px rgba(147, 51, 234, 0.6); } }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+        .input-focus:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+        }
+        .success-animation {
+            animation: successPulse 0.6s ease-out;
+        }
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        /* Iframe styling for full content area */
+        #targetIframe {
+            width: 100%;
+            height: 100vh; /* ใช้พื้นที่ความสูงเกือบทั้งหมด */
+            position: absolute; /* วางทับเนื้อหาเดิม */
+            top: 0;
+            left: 0;
+            z-index: 5; /* ให้อยู่ด้านบนของเนื้อหาเดิม */
+            background-color: white; /* พื้นหลังสีขาวสำหรับเนื้อหาที่โหลด */
+        }
+        .iframe-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding-top: 100px; /* เว้นพื้นที่ด้านบนสำหรับ Header (ปรับตามขนาด Header) */
+            padding-bottom: 60px; /* เว้นพื้นที่ด้านล่างสำหรับ Footer (ปรับตามขนาด Footer) */
+        }
+        .main-content-wrapper {
+            /* สำหรับหน้า Login เดิม */
+            min-height: calc(100vh - 100px - 60px); /* ความสูงหน้าจอ - Header - Footer */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen relative">
+    <header class="text-center py-8 relative z-20 fade-in bg-white/50 backdrop-blur-md shadow-lg">
+        <div class="flex items-center justify-center mb-4">
+            <div class="w-16 h-16 bg-white/30 rounded-full flex items-center justify-center mr-4 backdrop-blur-sm border border-white/50 hover:scale-110 transition-transform duration-300 hover:bg-white/40 overflow-hidden shadow-2xl drop-shadow-xl float">
+                <img src="https://img5.pic.in.th/file/secure-sv1/IMG_25650953161d1c1bbdd8.jpeg" alt="SPT MORAL SCHOOL Logo" class="w-14 h-14 object-cover rounded-full shadow-lg">
+            </div>
+            <div>
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-2 drop-shadow-lg">SPT MORAL SCHOOL</h1>
+            </div>
+        </div>
+        <p class="text-lg text-gray-700 font-medium drop-shadow-md">คณะกรรมการนักเรียนขับเคลื่อนโรงเรียนคุณธรรม สพฐ. โรงเรียนสตรีพัทลุง</p>
+    </header>
+
+    <div class="main-content-wrapper p-4">
+        <div id="loginSection" class="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 shadow-2xl border border-white/20 max-w-md w-full hover:bg-white/15 transition-all duration-300 hover:shadow-3xl hover:scale-105 slide-up">
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 bg-gradient-to-br from-white/80 to-gray-100/80 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm border border-gray-300 shadow-2xl drop-shadow-xl hover:scale-110 transition-transform duration-300 overflow-hidden pulse-glow">
+                    <img src="https://img5.pic.in.th/file/secure-sv1/IMG_25650953161d1c1bbdd8.jpeg" alt="SPT MORAL SCHOOL Logo" class="w-20 h-20 object-cover rounded-full shadow-lg">
+                </div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2 drop-shadow-md">ยินดีต้อนรับ</h2>
+                <p class="text-gray-700 font-medium drop-shadow-sm">เข้าสู่ระบบเพื่อใช้งานเว็บแอปพลิเคชัน</p>
+            </div>
+
+            <button onclick="openLoginPopup()" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold py-4 px-6 rounded-2xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7l5 5v11a3 3 0 01-3 3z"></path>
+                </svg>
+                เข้าสู่ระบบ
+            </button>
+        </div>
+        
+        <iframe id="targetIframe" class="w-full h-full absolute top-0 left-0 hidden" frameborder="0" style="min-height: 100vh; border: none; z-index: 5; background-color: white;"></iframe>
+    </div>
+    
+
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/10 backdrop-blur-sm border-t border-white/20 py-4 relative z-20">
+        <div class="text-center">
+            <p class="text-gray-700 text-sm font-medium drop-shadow-sm">
+                © 2024 SPT MORAL SCHOOL - คณะกรรมการนักเรียนขับเคลื่อนโรงเรียนคุณธรรม สพฐ.
+            </p>
+            <p class="text-gray-600 text-xs mt-1 drop-shadow-sm">
+                โรงเรียนสตรีพัทลุง | All Rights Reserved
+            </p>
+        </div>
+    </footer>
+
+    <div id="loginPopup" class="fixed inset-0 bg-black/50 popup-overlay hidden items-center justify-center z-50 p-4">
+        <div class="bg-white/95 backdrop-blur-xl rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/30 slide-up">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">เข้าสู่ระบบ</h3>
+                <button onclick="closeLoginPopup()" class="text-gray-500 hover:text-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="loginForm" class="space-y-4">
+                <div id="inlineMessage" class="hidden p-4 rounded-xl">
+                    <div class="flex items-center">
+                        <svg id="messageIcon" class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        <span id="messageText">ข้อความ</span>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">รหัสนักเรียน</label>
+                    <input type="text" id="studentId" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none input-focus transition-all duration-300" placeholder="กรอกรหัสนักเรียน" required>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน</label>
+                    <div class="relative">
+                        <input type="password" id="password" class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none input-focus transition-all duration-300 pr-12" placeholder="กรอกรหัสผ่าน" required>
+                        <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="rounded border-gray-300 text-purple-600 focus:ring-purple-500">
+                        <span class="ml-2 text-sm text-gray-600">จดจำการเข้าสู่ระบบ</span>
+                    </label>
+                    <a href="mailto:sptmorral@spt.ac.th?subject=ขอรีเซ็ตรหัสผ่าน&body=สวัสดีครับ/ค่ะ%0A%0Aกรุณาช่วยรีเซ็ตรหัสผ่านให้ด้วยครับ/ค่ะ%0A%0Aรหัสนักเรียน: %0Aชื่อ-นามสกุล: %0A%0Aขอบคุณครับ/ค่ะ" class="text-sm text-purple-600 hover:text-purple-800 transition-colors">ลืมรหัสผ่าน?</a>
+                </div>
+                
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white font-semibold py-3 px-6 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    เข้าสู่ระบบ
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        function openLoginPopup() {
+            document.getElementById('loginPopup').classList.remove('hidden');
+            document.getElementById('loginPopup').classList.add('flex');
+        }
+
+        function closeLoginPopup() {
+            const popup = document.getElementById('loginPopup');
+            popup.querySelector('.slide-up').classList.add('slide-down');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+                popup.classList.remove('flex');
+                popup.querySelector('.slide-up').classList.remove('slide-down');
+            }, 300);
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
+                `;
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                `;
+            }
+        }
+
+        function showInlineMessage(message, type = 'error') {
+            const messageDiv = document.getElementById('inlineMessage');
+            const messageText = document.getElementById('messageText');
+            const messageIcon = document.getElementById('messageIcon');
+            
+            messageText.textContent = message;
+            
+            // Remove existing classes
+            messageDiv.classList.remove('bg-red-100', 'text-red-700', 'border-red-300', 'bg-green-100', 'text-green-700', 'border-green-300');
+            
+            if (type === 'success') {
+                messageDiv.classList.add('bg-green-100', 'text-green-700', 'border', 'border-green-300');
+                messageIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>`;
+            } else {
+                messageDiv.classList.add('bg-red-100', 'text-red-700', 'border', 'border-red-300');
+                messageIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>`;
+            }
+            
+            messageDiv.classList.remove('hidden');
+            
+            // Auto hide after delay
+            setTimeout(() => {
+                messageDiv.classList.add('hidden');
+            }, type === 'success' ? 2000 : 4000);
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('studentId').value;
+            const password = document.getElementById('password').value;
+            
+            if (!studentId || !password) {
+                showInlineMessage('กรุณากรอกข้อมูลให้ครบถ้วน', 'error');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>กำลังตรวจสอบ...';
+            submitBtn.disabled = true;
+
+            try {
+                // Try multiple methods to access Google Sheets data (ใช้โค้ดเดิม)
+                let csvData = '';
+                let success = false;
+                
+                // Method 1: Direct CSV export
+                try {
+                    const sheetUrl1 = 'https://docs.google.com/spreadsheets/d/1d0TunDjzrEAiDmpIpxrV_FmZ5m5zy5_vT9B6VN_EXzk/export?format=csv&gid=0';
+                    const response1 = await fetch(sheetUrl1);
+                    if (response1.ok) {
+                        csvData = await response1.text();
+                        success = true;
+                    }
+                } catch (e) {
+                    // console.log('Method 1 failed, trying method 2...');
+                }
+                
+                // Method 2: GViz API
+                if (!success) {
+                    try {
+                        const sheetUrl2 = 'https://docs.google.com/spreadsheets/d/1d0TunDjzrEAiDmpIpxrV_FmZ5m5zy5_vT9B6VN_EXzk/gviz/tq?tqx=out:csv&sheet=Sheet1';
+                        const response2 = await fetch(sheetUrl2);
+                        if (response2.ok) {
+                            csvData = await response2.text();
+                            success = true;
+                        }
+                    } catch (e) {
+                        // console.log('Method 2 failed, using demo data...');
+                    }
+                }
+                
+                // Demo data for testing
+                if (!success) {
+                    csvData = `"username","password","status"
+"12345","password123","admin"
+"67890","mypass456","ปกติ"
+"11111","test123","admin"
+"22222","student456","ปกติ"`;
+                    // console.log('Using demo data for testing');
+                }
+                
+                // Parsing CSV data (ใช้โค้ดเดิม)
+                const lines = csvData.split('\n').filter(line => line.trim() !== '');
+                let userFound = false;
+                let userStatus = '';
+                
+                for (let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    
+                    const columns = line.split(',').map(col => col.replace(/^"|"$/g, '').trim());
+                    
+                    if (columns.length >= 3) {
+                        const sheetStudentId = columns[0];
+                        const sheetPassword = columns[1];
+                        const sheetStatus = columns[2].toLowerCase();
+                        
+                        if (sheetStudentId === studentId && sheetPassword === password) {
+                            userFound = true;
+                            userStatus = sheetStatus;
+                            break;
+                        }
+                    }
+                }
+
+                if (userFound) {
+                    // *** การเปลี่ยนแปลงสำคัญ: ใช้ Iframe แทน window.location.href ***
+                    setLoggedInStatus();
+                    
+                    showInlineMessage('เข้าสู่ระบบสำเร็จ! กำลังโหลดหน้าเว็บ...', 'success');
+                    
+                    setTimeout(() => {
+                        closeLoginPopup();
+                        
+                        const iframe = document.getElementById('targetIframe');
+                        const loginSection = document.getElementById('loginSection');
+                        let targetUrl = '';
+                        
+                        if (userStatus === 'admin') {
+                            targetUrl = 'https://spt-moral-school.my.canva.site/admin-student-committee';
+                        } else {
+                            targetUrl = 'https://spt-moral-school.my.canva.site/student-committee';
+                        }
+                        
+                        // ซ่อนส่วน Login เดิม
+                        loginSection.classList.add('hidden');
+                        
+                        // กำหนด URL ให้ Iframe และแสดง Iframe
+                        iframe.src = targetUrl;
+                        iframe.classList.remove('hidden');
+                        
+                    }, 1500);
+                } else {
+                    showInlineMessage('รหัสนักเรียนหรือรหัสผ่านไม่ถูกต้อง', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showInlineMessage('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง', 'error');
+            } finally {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Close popups when clicking outside
+        document.getElementById('loginPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLoginPopup();
+            }
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLoginPopup();
+            }
+        });
+
+        // Auto logout system
+        let inactivityTimer;
+        let warningTimer;
+        const INACTIVITY_TIME = 15 * 60 * 1000; // 15 minutes in milliseconds
+        const WARNING_TIME = 13 * 60 * 1000; // Show warning at 13 minutes
+        let isLoggedIn = false;
+
+        function resetInactivityTimer() {
+            if (!isLoggedIn) return;
+            
+            clearTimeout(inactivityTimer);
+            clearTimeout(warningTimer);
+            
+            // Set warning timer (2 minutes before logout)
+            warningTimer = setTimeout(() => {
+                showWarningMessage();
+            }, WARNING_TIME);
+            
+            // Set logout timer
+            inactivityTimer = setTimeout(() => {
+                performAutoLogout();
+            }, INACTIVITY_TIME);
+        }
+
+        function showWarningMessage() {
+            const warningMsg = document.createElement('div');
+            warningMsg.id = 'warningMessage';
+            warningMsg.className = 'fixed top-4 right-4 bg-yellow-500 text-white px-6 py-4 rounded-xl shadow-lg z-50 success-animation';
+            warningMsg.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <span>คุณจะถูกออกจากระบบใน 2 นาที เนื่องจากไม่มีการใช้งาน</span>
+                </div>
+            `;
+            document.body.appendChild(warningMsg);
+            
+            setTimeout(() => {
+                if (document.getElementById('warningMessage')) {
+                    document.body.removeChild(warningMsg);
+                }
+            }, 5000);
+        }
+
+        // *** การเปลี่ยนแปลงสำคัญ: แก้ไขฟังก์ชัน Logout ให้จัดการ Iframe ***
+        function performAutoLogout() {
+            isLoggedIn = false;
+            clearTimeout(inactivityTimer);
+            clearTimeout(warningTimer);
+            
+            // Clear any stored session data
+            localStorage.removeItem('spt_session');
+            sessionStorage.clear();
+            
+            // Elements
+            const iframe = document.getElementById('targetIframe');
+            const loginSection = document.getElementById('loginSection');
+            
+            // จัดการหน้าจอ
+            if (iframe && loginSection) {
+                // ซ่อน Iframe
+                iframe.classList.add('hidden');
+                iframe.src = 'about:blank'; // เคลียร์เนื้อหา Iframe เพื่อความปลอดภัย/ประสิทธิภาพ
+                
+                // แสดงส่วน Login
+                loginSection.classList.remove('hidden');
+                
+                // แสดงข้อความแจ้งเตือน (ใช้ alert เดิม)
+                alert('คุณถูกออกจากระบบเนื่องจากไม่มีการใช้งานเป็นเวลานาน');
+                
+                // เปิด Popup Login เพื่อให้ Log In ใหม่ได้เลย
+                openLoginPopup(); 
+            }
+            
+            // ไม่ต้อง Redirect เพราะต้องการคง URL เดิม
+        }
+
+        // Track user activity (ใช้โค้ดเดิม)
+        const activityEvents = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+        
+        activityEvents.forEach(event => {
+            document.addEventListener(event, resetInactivityTimer, true);
+        });
+
+        // Set logged in status when user successfully logs in (ใช้โค้ดเดิม)
+        function setLoggedInStatus() {
+            isLoggedIn = true;
+            localStorage.setItem('spt_session', Date.now().toString());
+            resetInactivityTimer();
+        }
+
+        // Check if user was previously logged in (หน้าถูกโหลดซ้ำ)
+        function checkExistingSession() {
+            const session = localStorage.getItem('spt_session');
+            if (session) {
+                const sessionTime = parseInt(session);
+                const currentTime = Date.now();
+                const timeDiff = currentTime - sessionTime;
+                
+                if (timeDiff > INACTIVITY_TIME) {
+                    localStorage.removeItem('spt_session');
+                    return false;
+                }
+                
+                // Session ยัง valid, ให้แสดง Iframe (แต่ต้องเดา status)
+                isLoggedIn = true;
+                resetInactivityTimer();
+                
+                // *** เพิ่มโค้ดสำหรับโหลด Iframe ซ้ำเมื่อ Refresh (หาก Session ยังอยู่) ***
+                // หมายเหตุ: การจำ status (admin/ปกติ) หลัง refresh ต้องใช้ local storage/session storage ในโค้ดจริง
+                // ณ ที่นี้ เราจะให้กลับไปหน้า login เมื่อ refresh เพื่อความง่าย
+                // หากต้องการให้คงสถานะ ต้องเก็บ userStatus ใน local/session storage ตอน login
+                // แต่ถ้าคุณยอมให้ผู้ใช้ต้อง Log In ใหม่ทุกครั้งที่ Refresh ก็ไม่ต้องทำอะไรเพิ่ม
+                // หากต้องการคงสถานะ:
+                /*
+                const status = localStorage.getItem('spt_user_status');
+                if (status) {
+                    const iframe = document.getElementById('targetIframe');
+                    const loginSection = document.getElementById('loginSection');
+                    let targetUrl = (status === 'admin') ? 'https://spt-moral-school.my.canva.site/admin-student-committee' : 'https://spt-moral-school.my.canva.site/student-committee';
+                    loginSection.classList.add('hidden');
+                    iframe.src = targetUrl;
+                    iframe.classList.remove('hidden');
+                }
+                */
+                return true;
+            }
+            return false;
+        }
+
+        // Initialize session check on page load (ใช้โค้ดเดิม)
+        window.addEventListener('load', () => {
+            checkExistingSession();
+        });
+    </script>
+    
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9747aa3891cc87da',t:'MTc1NjA4OTAwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
